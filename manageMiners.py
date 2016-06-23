@@ -64,15 +64,23 @@ class ReadTemperature(Thread):
 @app.route('/')
 def index():
     global threads
-    threads = {}
-    for num in ip_end_num:
-        threads[num] = ReadTemperature(num,2)
-    # if thread is None:
-        # thread = Thread(target=background_thread)
-        # thread = ReadTemperature(1,2)
-        threads[num].daemon = True
-        threads[num].start()
-    return render_template('main2.htm', machines=ip_end_num)
+    if threads is None:
+        threads = {}
+        for num in ip_end_num:
+            threads[num] = ReadTemperature(num,2)
+        # if thread is None:
+            # thread = Thread(target=background_thread)
+            # thread = ReadTemperature(1,2)
+            threads[num].daemon = True
+            threads[num].start()
+        return render_template('main2.htm', machines=ip_end_num)
+    else:
+        return render_template('main2.html', machines=ip_end_num)
+
+@app.route('/miners/<number>'):
+def get_log(number):
+    
+
 
 # @socketio.on('connect',namespace='/jsh')
 # def test_connect():
