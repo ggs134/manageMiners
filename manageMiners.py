@@ -25,6 +25,8 @@ ip_end_num = {1:39,3:36,4:35,5:38,6:37,7:31,8:33,14:40,15:3,16:7,17:8,
 
 ip_end_num_test = {1:39,3:36}
 
+global threads
+
 # def background_thread():
 #     """Example of how to send server generated events to clients."""
 #     count = 0
@@ -64,22 +66,22 @@ class ReadTemperature(Thread):
 @app.route('/')
 def index():
     global threads
-    if threads is None:
-        threads = {}
-        for num in ip_end_num:
-            threads[num] = ReadTemperature(num,2)
-        # if thread is None:
-            # thread = Thread(target=background_thread)
-            # thread = ReadTemperature(1,2)
-            threads[num].daemon = True
-            threads[num].start()
-        return render_template('main2.htm', machines=ip_end_num)
-    else:
-        return render_template('main2.html', machines=ip_end_num)
+    # if threads is not None:
+    threads = {}
+    for num in ip_end_num:
+        threads[num] = ReadTemperature(num,30)
+    # if thread is None:
+        # thread = Thread(target=background_thread)
+        # thread = ReadTemperature(1,2)
+        threads[num].daemon = True
+        threads[num].start()
+    return render_template('main2.htm', machines=ip_end_num)
+    # else:
+    #     return render_template('main2.html', machines=ip_end_num)
 
 # @app.route('/miners/<number>'):
 # def get_log(number):
-    
+
 
 
 # @socketio.on('connect',namespace='/jsh')
