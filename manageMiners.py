@@ -77,8 +77,8 @@ def index():
     else:
         return render_template('main2.html', machines=ip_end_num)
 
-@app.route('/miners/<number>'):
-def get_log(number):
+# @app.route('/miners/<number>'):
+# def get_log(number):
     
 
 
