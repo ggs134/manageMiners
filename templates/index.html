@@ -1,0 +1,53 @@
+<html>
+<head>
+  <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      namespace = '/jsh';
+      tailScroll();
+      var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+      socket.on('connect', function() {
+          socket.emit('my event', {data: 'I\'m connected!'});
+      });
+      socket.on('my response', function(msg) {
+                  $('#log').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+                  tailScroll();
+              });
+
+      function tailScroll() {
+          var height = $("#log").get(0).scrollHeight;
+          $("#log").animate({
+              scrollTop: height
+          }, 500);
+      };
+
+
+
+    });
+        // some demo data
+    // for(var i=0; i<100; i++) {
+    //     $("<div />").text("log line " + i).appendTo("#tail")
+    // }
+
+    // scroll to bottom on init
+    tailScroll();
+    //
+    // // add button click
+    // $("button").click(function(e) {
+    //     e.preventDefault();
+    //     $("<div />").text("new line").appendTo("#tail");
+    //     tailScroll();
+    // });
+
+    // tail effect
+
+
+  </script>
+</head>
+<body>
+  <div></div>
+  <div id="log"></div>
+</body>
+
+</html>

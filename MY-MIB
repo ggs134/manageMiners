@@ -1,0 +1,19 @@
+MY-MIB DEFINITIONS ::= BEGIN
+IMPORTS
+        OBJECT-TYPE, Integer32, NOTIFICATION-TYPE, enterprises
+                     FROM SNMPv2-SMI
+;
+onther       OBJECT IDENTIFIER ::= {enterprises 42}
+hashrate OBJECT-TYPE
+    SYNTAX Integer32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "A hashrate of machine."
+    ::= {onther 1}
+hashrateDescription OBJECT-TYPE
+    SYNTAX OCTET STRING
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "A description of hashrate"
+    ::= {onther 2}
+END
