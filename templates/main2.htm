@@ -123,8 +123,8 @@
               <thead>
                 <tr>
                   <th>마이너번호</th>
-                  <th>마지막로그</th>
-                  <th>재부팅(소프트웨어)</th>
+                  <th>해시값</th>
+                  <th>재부팅</th>
                   <th>온도1</th>
                   <th>온도2</th>
                   <th>온도3</th>
@@ -137,7 +137,7 @@
                 {% for num, ip in machines.iteritems() %}
                 <tr class={{num}}>
                   <td>{{num}}</td>
-                  <td>LOG</td>
+                  <td id="hash{{num}}"></td>
                   <td><button type=button class="btn btn-default">재부팅</button></td>
                   <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
@@ -176,7 +176,8 @@
         //     socket.emit('my event', {data: 'I\'m connected!'});
         // });
         socket.on('gpu status', function(msg) {
-                    $('#log').append('<br>' + $('<div/>').text('Received  : ' + msg.temp).html());
+                    // $('#log').append('<br>' + $('<div/>').text('Received  : ' + msg.temp).html());
+                    $("#hash"+msg.cardNum).html(msg.hash+" MH/s");
                     var parsedTemp = JSON.parse(msg.temp);
                     for(var i=1; i<parsedTemp.length+1; i++){
                       $('#gpu'+msg.cardNum+i).html(parsedTemp[i-1]);

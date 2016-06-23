@@ -49,11 +49,11 @@ class ReadTemperature(Thread):
             try:
                 res = manager.get_status("192.168.0."+str(ip_end_num[self.num]), 161)
                 print self.num, str(res[1]), type(res[1])
-                socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1]}, namespace="/jsh")
+                socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1], 'hash':res[0]}, namespace="/jsh")
                 time.sleep(self.interval)
             except:
                 print self.num, "error connection"
-                socketio.emit('gpu status', {"cardNum":self.num,'temp':[None,None,None,None,None,None]}, namespace="/jsh")
+                socketio.emit('gpu status', {"cardNum":self.num,'temp':[None,None,None,None,None,None], "hash":None}, namespace="/jsh")
                 time.sleep(self.interval)
 
             # print self.num, str(res[1]), type(res[1])
