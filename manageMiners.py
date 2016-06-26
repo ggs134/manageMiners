@@ -3,6 +3,8 @@ from flask_socketio import SocketIO, emit
 
 from threading import Thread
 import time
+import json
+import requests
 
 import command_one as sshCommand
 import manager
@@ -16,12 +18,14 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 thread=None
 
-miners_farm1 = [1,3,4,5,6,7,8]
-miners_farm2 = [i for i in range(14,39) if i is not 26 ]
+miners_farm1 = [1,2,3,4,5,6,7,8,9,10,11]
+miners_farm2 = [i for i in range(14,39) if i is not 37 ]
 miners_all = miners_farm1 + miners_farm2
 ip_end_num = {1:39,3:36,4:35,5:38,6:37,7:31,8:33,14:40,15:3,16:7,17:8,
 18:9,19:11,20:12,21:34,22:10,23:21,24:14,25:15,26:19,27:18,28:17,
 29:16,30:20,31:26,32:29,33:25,34:23,35:24,36:28,37:22,38:27}
+
+miner_list=miners_farm1+miners_farm2
 
 ip_end_num_test = {1:39,3:36}
 
@@ -58,26 +62,51 @@ class ReadTemperature(Thread):
                 socketio.emit('gpu status', {"cardNum":self.num,'temp':[None,None,None,None,None,None], "hash":None}, namespace="/jsh")
                 time.sleep(self.interval)
 
-            # print self.num, str(res[1]), type(res[1])
+            # print self.num, str(res[1]), type( res[1])
             # socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1]}, namespace="/jsh")
             # time.sleep(self.interval)
+
+class getMiningPoolHubData(Thread):
+    def __init__(self, interval):
+        super(getMiningPoolHubData,self).__init__()
+        self.interval = interval
+
+    def run(self):
+        while True:
+            response = requests.get("http://ethereum.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=a8c9f5ea1a4045f6809c9a47c4746f5ae4aa5e136bf96ec0ce4223734c96a128")
+            json_response = response.json()
+            data = json_response["getuserworkers"]["data"]
+            # print data
+            socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
+            time.sleep(self.interval)
+
+# @app.route('/')
+# def index():
+#     global threads
+#     # if threads is not None:
+#     threads = {}
+#     for num in ip_end_num:
+#         threads[num] = ReadTemperature(num,30)
+#         threads[num].daemon = True
+#         threads[num].start()
+#     return render_template('main2.htm', machines=ip_end_num)
 
 
 @app.route('/')
 def index():
-    global threads
-    # if threads is not None:
-    threads = {}
-    for num in ip_end_num:
-        threads[num] = ReadTemperature(num,30)
-    # if thread is None:
-        # thread = Thread(target=background_thread)
-        # thread = ReadTemperature(1,2)
-        threads[num].daemon = True
-        threads[num].start()
-    return render_template('main2.htm', machines=ip_end_num)
-    # else:
-    #     return render_template('main2.html', machines=ip_end_num)
+    # response = requests.get("http://ethereum.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=a8c9f5ea1a4045f6809c9a47c4746f5ae4aa5e136bf96ec0ce4223734c96a128")
+    # json_response = response.json()
+    # data = json_response["getuserworkers"]["data"]
+    # # print data
+    # socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
+    global thread
+    if thread is None:
+    # if thread is not None:
+        thread = getMiningPoolHubData(15)
+        thread.daemon = True
+        thread.start()
+    return render_template('main3.htm', machines=miner_list)
+
 
 # @app.route('/miners/<number>'):
 # def get_log(number):

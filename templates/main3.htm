@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{url_for('static', filename='bootstrap.min.css')}}" rel="stylesheet" type=text/css>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <!-- <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
 
     <!-- Custom styles for this template -->
     <link href="{{url_for('static', filename='dashboard.css')}}" rel="stylesheet" type=text/css>
@@ -53,7 +53,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://bootstrapk.com/examples/dashboard/#">Project name</a>
+          <a class="navbar-brand" href="http://bootstrapk.com/examples/dashboard/#">Goldrush</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -96,16 +96,17 @@
 
           <div class="row placeholders">
             <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/sky" class="img-responsive"  src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6I0ZGRkZGRjtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
-              <h4>가동장비</h4>
+              <!-- <img data-src="holder.js/200x200/auto/sky?text=Hello" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6I0ZGRkZGRjtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg=="> -->
+              <!-- <img data-src="holder.js/200x200/auto/sky"> -->
+              <h2 id="total-machines">가동장비</h2>
               <span class="text-muted">가동장비</span>
             </div>
             <div class="col-xs-6 col-sm-3 placeholder">
-              <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6IzFFMjkyQztmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
-              <h4>총해시량</h4>
+              <!-- <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6IzFFMjkyQztmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true"> -->
+              <h2 id="total-hash">총해시량</h2>
               <span class="text-muted">총해시량</span>
             </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
+            <!-- <div class="col-xs-6 col-sm-3 placeholder">
               <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzBEOEZEQiIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6I0ZGRkZGRjtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
               <h4>실내온도</h4>
               <span class="text-muted">실내온도</span>
@@ -114,7 +115,7 @@
               <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6IzFFMjkyQztmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
               <h4>1일예상수입(ETH)</h4>
               <span class="text-muted">1일예상수입(ETH)</span>
-            </div>
+            </div> -->
           </div>
 
           <h2 class="sub-header">마이닝정보</h2>
@@ -124,27 +125,27 @@
                 <tr>
                   <th>마이너번호</th>
                   <th>해시값</th>
-                  <th>재부팅</th>
+                  <!-- <th>재부팅</th>
                   <th>온도1</th>
                   <th>온도2</th>
                   <th>온도3</th>
                   <th>온도4</th>
                   <th>온도5</th>
-                  <th>온도6</th>
+                  <th>온도6</th> -->
                 </tr>
               </thead>
               <tbody>
                 {% for num in machines %}
                 <tr class={{num}}>
-                  <td>{{num}}</td>
+                  <td id="miner{{num}}">{{num}}</td>
                   <td id="hash{{num}}"></td>
-                  <td><button type=button class="btn btn-default">재부팅</button></td>
-                  <td id='gpu{{num}}1'></td>
+                  <!-- <td><button type=button class="btn btn-default">재부팅</button></td> -->
+                  <!-- <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
                   <td id='gpu{{num}}3'></td>
                   <td id='gpu{{num}}4'></td>
                   <td id='gpu{{num}}5'></td>
-                  <td id='gpu{{num}}6'></td>
+                  <td id='gpu{{num}}6'></td> -->
                 </tr>
                 {% endfor %}
               </tbody>
@@ -185,6 +186,33 @@
 
                     // tailScroll();
                 });
+        socket.on('miningpoolhub status', function(msg) {
+          var total_num = msg.data.length;
+
+          // Holder.addTheme("vine", {text: msg.data.length });
+          // Holder.run();
+          // console.log(msg.data.length);
+          // // var parsedData = JSON.parse(msg.data);
+          // console.log(msg.data);
+          var total_hash = 0;
+          for(var miner in msg.data){
+            // var minerNum = miner["username"].substring(13);
+            var data = msg.data[miner];
+            var minerNum = data["username"].substring(13);
+            // console.log(minerNum);
+            // console.log("hash"+minerNum);
+
+            $('#hash'+minerNum).html((data["hashrate"]/1000).toFixed(1)+" MH/s").css("background-color","transparent");
+            if(data["hashrate"] == 0) {
+              total_num -= 1;
+              $('#hash'+minerNum).css("background-color", "red");
+            };
+            total_hash += data["hashrate"]/1000000;
+          };
+          $('#total-hash').html(total_hash.toFixed(2)+" GH/s");
+          $('#total-machines').html(total_num+" / 35");
+
+        });
 
         // function tailScroll() {
         //     var height = $("#log").get(0).scrollHeight;
