@@ -1,0 +1,37 @@
+# IPython log file
+
+import requests
+res = requests.get("http://ethereum.miningpoolhub.com/index.php?page=api&action=getusertransactions&api_key=a8c9f5ea1a4045f6809c9a47c4746f5ae4aa5e136bf96ec0ce4223734c96a128")
+res.json()
+res.json().kesy()
+res.json().keys()
+res.json()['getusertransactions']
+res.json()['getusertransactions']["data"]
+data = res.json()['getusertransactions']["data"]
+for i in data:
+    print i
+    
+data
+for i in data:
+    print i
+    
+data["transactions"]
+data2 = data["transactions"]
+data2
+for i in data2:
+    print i
+    
+for i in data2:
+    print i
+    
+data2[0]
+stamp=data2[0]['timestamp']
+stamp
+import time
+t = time.strptime(stamp, "%Y-%m-%d %H:%M:%S")
+t
+get_ipython().magic(u'history')
+history = get_ipython().magic(u'history')
+history
+get_ipython().magic(u'logstart timecontrol')
+exit()

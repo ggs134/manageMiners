@@ -9,6 +9,8 @@ import requests
 import command_one as sshCommand
 import manager
 
+import get24mined
+
 # from gevent import monkey
 #
 # monkey.patch_all()
@@ -99,13 +101,16 @@ def index():
     # data = json_response["getuserworkers"]["data"]
     # # print data
     # socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
+
+    minedEther = get24mined.getMinedEther()
+
     global thread
     if thread is None:
     # if thread is not None:
         thread = getMiningPoolHubData(15)
         thread.daemon = True
         thread.start()
-    return render_template('main3.htm', machines=miner_list)
+    return render_template('main3.htm', machines=miner_list, lastMined=minedEther)
 
 
 # @app.route('/miners/<number>'):
