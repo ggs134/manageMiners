@@ -53,7 +53,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://onther.iptime.org:5000#">Goldrush</a>
+          <a class="navbar-brand" href="http://onther.iptime.org:5000#">Goldrush</a><a class="navbar-brand" id="timer"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -176,16 +176,21 @@
         // socket.on('connect', function() {
         //     socket.emit('my event', {data: 'I\'m connected!'});
         // });
-        socket.on('gpu status', function(msg) {
-                    // $('#log').append('<br>' + $('<div/>').text('Received  : ' + msg.temp).html());
-                    $("#hash"+msg.cardNum).html(msg.hash+" MH/s");
-                    var parsedTemp = JSON.parse(msg.temp);
-                    for(var i=1; i<parsedTemp.length+1; i++){
-                      $('#gpu'+msg.cardNum+i).html(parsedTemp[i-1]);
-                    };
+        socket.on("timer status", function(msg){
+          remain_second = msg.data;
+          $("#timer").html(remain_second+" 초 후 업데이트");
+        });
 
-                    // tailScroll();
-                });
+        // socket.on('gpu status', function(msg) {
+        //             // $('#log').append('<br>' + $('<div/>').text('Received  : ' + msg.temp).html());
+        //             $("#hash"+msg.cardNum).html(msg.hash+" MH/s");
+        //             var parsedTemp = JSON.parse(msg.temp);
+        //             for(var i=1; i<parsedTemp.length+1; i++){
+        //               $('#gpu'+msg.cardNum+i).html(parsedTemp[i-1]);
+        //             };
+        //
+        //             // tailScroll();
+        //         });
         socket.on('miningpoolhub status', function(msg) {
           var total_num = msg.data.length;
 

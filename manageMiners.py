@@ -80,7 +80,13 @@ class getMiningPoolHubData(Thread):
             data = json_response["getuserworkers"]["data"]
             # print data
             socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
-            time.sleep(self.interval)
+            count = 15;
+            for i in range(self.interval):
+                socketio.emit("timer status", {"data": count }, namespace="/jsh")
+                time.sleep(1)
+                count -=1
+
+            # time.sleep(self.interval)
 
 # @app.route('/')
 # def index():
