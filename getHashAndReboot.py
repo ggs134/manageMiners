@@ -21,6 +21,7 @@ class getMiningPoolHubData(Thread):
                 if i["hashrate"] == 0:
                     try:
                         command_one.command_one(miner_num, "sudo reboot")
+                        sys.stderr.write(str(datetime.now())+" miner"+str(miner_num)+" rebooting\n")
                     except:
                         sys.stderr.write(str(datetime.now())+" "+str(miner_num)+" Error Occured\n")
                         pass
