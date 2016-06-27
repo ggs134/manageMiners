@@ -18,7 +18,7 @@ def getMinedEther():
         # print 3,datetime.timedelta(days=1)
         print "TRTIME", trTime
         print "UTC" ,datetime.datetime.utcnow()
-        print "diff", datetime.datetime.utcnow() - trTime > datetime.timedelta(days=1), datetime.datetime.utcnow() - trTime
+        print "diff", datetime.datetime.utcnow() - trTime > datetime.timedelta(hours=3), datetime.datetime.utcnow() - trTime
         if transaction["type"] == "Fee":
             fee.append(data[i]['amount'])
         elif transaction["type"] == "Credit":
