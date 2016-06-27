@@ -80,7 +80,7 @@ class getMiningPoolHubData(Thread):
             data = json_response["getuserworkers"]["data"]
             # print data
             socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
-            count = 15;
+            count = 10;
             for i in range(self.interval):
                 socketio.emit("timer status", {"data": count }, namespace="/jsh")
                 time.sleep(1)
@@ -113,7 +113,7 @@ def index():
     global thread
     if thread is None:
     # if thread is not None:
-        thread = getMiningPoolHubData(15)
+        thread = getMiningPoolHubData(10)
         thread.daemon = True
         thread.start()
     return render_template('main3.htm', machines=miner_list, lastMined=minedEther)
