@@ -124,7 +124,8 @@
               <thead>
                 <tr>
                   <th>마이너번호</th>
-                  <th>해시값</th>
+                  <th>이더리움해시값</th>
+                  <th>클래식해시값</th>
                   <!-- <th>재부팅</th>
                   <th>온도1</th>
                   <th>온도2</th>
@@ -139,6 +140,7 @@
                 <tr class={{num}}>
                   <td id="miner{{num}}">{{num}}</td>
                   <td id="hash{{num}}"></td>
+                  <td id="hashC{{num}}"></td>
                   <!-- <td><button type=button class="btn btn-default">재부팅</button></td> -->
                   <!-- <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
@@ -192,13 +194,15 @@
         //             // tailScroll();
         //         });
         socket.on('miningpoolhub status', function(msg) {
-          var total_num = msg.data.length;
+          var total_num = msg.data.length + msg.data2.length;
 
           // Holder.addTheme("vine", {text: msg.data.length });
           // Holder.run();
           // console.log(msg.data.length);
           // // var parsedData = JSON.parse(msg.data);
           // console.log(msg.data);
+
+          //ethereum
           var total_hash = 0;
           for(var miner in msg.data){
             // var minerNum = miner["username"].substring(13);
@@ -214,10 +218,34 @@
             };
             total_hash += data["hashrate"]/1000000;
           };
-          $('#total-hash').html(total_hash.toFixed(2)+" GH/s");
-          $('#total-machines').html(total_num+" / 35");
+
+
+          //ethereum classic
+          for(var miner in msg.data2){
+            // var minerNum = miner["username"].substring(13);
+            var data = msg.data2[miner];
+            console.log(data);
+            var minerNum = data["username"].substring(13);
+            // console.log(minerNum);
+            // console.log("hash"+minerNum);
+
+            $('#hashC'+minerNum).html((data["hashrate"]/1000).toFixed(1)+" MH/s").css("background-color","transparent");
+            if(data["hashrate"] == 0) {
+              total_num -= 1;
+              $('#hashC'+minerNum).css("background-color", "red");
+            };
+
+            $('#total-hash').html(total_hash.toFixed(2)+" GH/s");
+            $('#total-machines').html(total_num+" / 35");
+            total_hash += data["hashrate"]/1000000;
+          };
 
         });
+
+        // $('#total-hash').html(total_hash.toFixed(2)+" GH/s");
+        // $('#total-machines').html(total_num+" / 35");
+
+      });
 
         // function tailScroll() {
         //     var height = $("#log").get(0).scrollHeight;
@@ -228,7 +256,7 @@
 
 
 
-      });
+      // });
       </script>
 
 

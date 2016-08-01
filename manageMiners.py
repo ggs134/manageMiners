@@ -20,7 +20,7 @@ app = Flask(__name__)
 socketio = SocketIO(app)
 thread=None
 
-miners_farm1 = [1,2,3,4,5,6,7,8,9,10,11]
+miners_farm1 = [1,2,3,4,5,6,8,9,10,11,12]
 miners_farm2 = [i for i in range(14,39) if i is not 37 ]
 miners_all = miners_farm1 + miners_farm2
 ip_end_num = {1:39,3:36,4:35,5:38,6:37,7:31,8:33,14:40,15:3,16:7,17:8,
@@ -76,10 +76,13 @@ class getMiningPoolHubData(Thread):
     def run(self):
         while True:
             response = requests.get("http://ethereum.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=a8c9f5ea1a4045f6809c9a47c4746f5ae4aa5e136bf96ec0ce4223734c96a128")
+            response2 = requests.get("http://ethereum-classic.miningpoolhub.com/index.php?page=api&action=getuserworkers&api_key=a8c9f5ea1a4045f6809c9a47c4746f5ae4aa5e136bf96ec0ce4223734c96a128")
             json_response = response.json()
+            json_response2 = response2.json()
             data = json_response["getuserworkers"]["data"]
+            data2 = json_response2["getuserworkers"]["data"]
             # print data
-            socketio.emit("miningpoolhub status", {"data": data}, namespace="/jsh")
+            socketio.emit("miningpoolhub status", {"data": data, "data2":data2}, namespace="/jsh")
             count = 10;
             for i in range(self.interval):
                 socketio.emit("timer status", {"data": count }, namespace="/jsh")
