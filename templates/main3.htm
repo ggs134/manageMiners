@@ -204,10 +204,12 @@
 
           //ethereum
           var total_hash = 0;
+          var miners_list = [];
           for(var miner in msg.data){
             // var minerNum = miner["username"].substring(13);
             var data = msg.data[miner];
             var minerNum = data["username"].substring(13);
+            miners_list.push(minerNum);
             // console.log(minerNum);
             // console.log("hash"+minerNum);
 
@@ -224,8 +226,9 @@
           for(var miner in msg.data2){
             // var minerNum = miner["username"].substring(13);
             var data = msg.data2[miner];
-            console.log(data);
+            // console.log(data);
             var minerNum = data["username"].substring(13);
+            // miners_list.push(minerNum);
             // console.log(minerNum);
             // console.log("hash"+minerNum);
 
@@ -239,6 +242,39 @@
             $('#total-machines').html(total_num+" / 35");
             total_hash += data["hashrate"]/1000000;
           };
+
+          //chack color
+          // console.log(miners_list);
+          for(var i in miners_list){
+            var eth_color = $('#hash'+i).css("background-color");
+            var classic_color = $("#hashC"+i).css("background-color");
+            // console.log(eth_color);
+            // console.log(classic_color);
+            // donsole.log()
+            // console.log(eth_color != classic_color)
+            if(i == "1" ){
+              console.log($('#hashC'+i).text());
+              console.log(eth_color);
+              console.log(classic_color);
+            };
+            if(i == "9" ){
+              console.log($('#hashC'+i).text() == "");
+              console.log(eth_color);
+              console.log(classic_color);
+            };
+            if(i == "12" ){
+              console.log(eth_color);
+              console.log(classic_color);
+            };
+            if (($('#hashC'+i).text() != "") && ($('#hash'+i).text() != "")){
+              if((eth_color == "rgb(255, 0, 0)") && (eth_color != classic_color)){
+                $('#hash'+i).css("background-color","transparent");
+              }else if((classic_color == "rgb(255, 0, 0)") && (eth_color != classic_color)){
+                $('#hashC'+i).css("background-color","transparent");
+              };
+            };
+          };
+          miners_list = [];
 
         });
 
