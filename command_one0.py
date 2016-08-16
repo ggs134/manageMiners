@@ -2,18 +2,14 @@ import paramiko
 import sys
 import paramikoWrapper as wrapper
 
-miners_farm1 = [1,3,4,5,6,7,8,14]
+miners_farm1 = [1,3,4,5,6,7,8]
 miners_farm2 = [i for i in range(14,39)]
 miners_all = miners_farm1 + miners_farm2
 
 def command_one(num, command):
   res = None
   # res = command_ssh("onther.iptime.org", 50000+int(num), "miner"+str(num) ,"rlagnlrud", command)
-  if num in miners_farm1:
-    cli = wrapper.SSHClient("goldrush2.hopto.org", 50000+int(num), "miner"+str(num), password="rlagnlrud")
-  else:
-    cli = wrapper.SSHClient("goldrush.iptime.org", 50000+int(num), "miner"+str(num), password="rlagnlrud")
-
+  cli = wrapper.SSHClient("onther.iptime.org", 50000+int(num), "miner"+str(num), password="rlagnlrud")
   if command.startswith("sudo"):
     res = cli.execute(command, sudo=True)
     cli.close()

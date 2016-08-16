@@ -126,8 +126,8 @@
                   <th>마이너번호</th>
                   <th>이더리움해시값</th>
                   <th>클래식해시값</th>
-                  <!-- <th>재부팅</th>
-                  <th>온도1</th>
+                  <th>재부팅</th>
+                  <!-- th>온도1</th>
                   <th>온도2</th>
                   <th>온도3</th>
                   <th>온도4</th>
@@ -141,7 +141,7 @@
                   <td id="miner{{num}}">{{num}}</td>
                   <td id="hash{{num}}"></td>
                   <td id="hashC{{num}}"></td>
-                  <!-- <td><button type=button class="btn btn-default">재부팅</button></td> -->
+                  <td>버튼(예정)</td>
                   <!-- <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
                   <td id='gpu{{num}}3'></td>
@@ -221,16 +221,13 @@
             total_hash += data["hashrate"]/1000000;
           };
 
+          // console.log(miners_list);
+
 
           //ethereum classic
           for(var miner in msg.data2){
-            // var minerNum = miner["username"].substring(13);
             var data = msg.data2[miner];
-            // console.log(data);
             var minerNum = data["username"].substring(13);
-            // miners_list.push(minerNum);
-            // console.log(minerNum);
-            // console.log("hash"+minerNum);
 
             $('#hashC'+minerNum).html((data["hashrate"]/1000).toFixed(1)+" MH/s").css("background-color","transparent");
             if(data["hashrate"] == 0) {
@@ -243,34 +240,35 @@
             total_hash += data["hashrate"]/1000000;
           };
 
-          //chack color
           // console.log(miners_list);
           for(var i in miners_list){
-            var eth_color = $('#hash'+i).css("background-color");
-            var classic_color = $("#hashC"+i).css("background-color");
+            var eth_color = $('#hash'+miners_list[i]).css("background-color");
+            var classic_color = $("#hashC"+miners_list[i]).css("background-color");
+            // console.log(miners_list[i]);
             // console.log(eth_color);
             // console.log(classic_color);
             // donsole.log()
             // console.log(eth_color != classic_color)
-            if(i == "1" ){
-              console.log($('#hashC'+i).text());
-              console.log(eth_color);
-              console.log(classic_color);
-            };
-            if(i == "9" ){
-              console.log($('#hashC'+i).text() == "");
-              console.log(eth_color);
-              console.log(classic_color);
-            };
-            if(i == "12" ){
-              console.log(eth_color);
-              console.log(classic_color);
-            };
-            if (($('#hashC'+i).text() != "") && ($('#hash'+i).text() != "")){
+            // if(i == "1" ){
+            //   console.log($('#hashC'+i).text());
+            //   console.log(eth_color);
+            //   console.log(classic_color);
+            // };
+            // if(i == "9" ){
+            //   console.log($('#hashC'+i).text() == "");
+            //   console.log(eth_color);
+            //   console.log(classic_color);
+            // };
+            // if(i == "12" ){
+            //   console.log(eth_color);
+            //   console.log(classic_color);
+            // };
+
+            if (($('#hashC'+miners_list[i]).text() != "") && ($('#hash'+miners_list[i]).text() != "")){
               if((eth_color == "rgb(255, 0, 0)") && (eth_color != classic_color)){
-                $('#hash'+i).css("background-color","transparent");
+                $('#hash'+miners_list[i]).css("background-color","transparent");
               }else if((classic_color == "rgb(255, 0, 0)") && (eth_color != classic_color)){
-                $('#hashC'+i).css("background-color","transparent");
+                $('#hashC'+miners_list[i]).css("background-color","transparent");
               };
             };
           };

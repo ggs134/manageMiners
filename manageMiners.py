@@ -1,35 +1,19 @@
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
-
 from threading import Thread
 import time
 import json
 import requests
-
-import command_one as sshCommand
-import manager
-
 import get24mined
 
-# from gevent import monkey
-#
-# monkey.patch_all()
-
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app)
-thread=None
+thread = None
 
 miners_farm1 = [1,2,3,4,5,6,8,9,10,11,12]
 miners_farm2 = [i for i in range(14,39) if i is not 37 ]
-miners_all = miners_farm1 + miners_farm2
-ip_end_num = {1:39,3:36,4:35,5:38,6:37,7:31,8:33,14:40,15:3,16:7,17:8,
-18:9,19:11,20:12,21:34,22:10,23:21,24:14,25:15,26:19,27:18,28:17,
-29:16,30:20,31:26,32:29,33:25,34:23,35:24,36:28,37:22,38:27}
+miner_list = miners_farm1 + miners_farm2
 
-miner_list=miners_farm1+miners_farm2
-
-ip_end_num_test = {1:39,3:36}
 
 global threads
 
@@ -46,27 +30,27 @@ global threads
 #         print res[1]
 
 
-class ReadTemperature(Thread):
-    def __init__(self, num, interval):
-        super(ReadTemperature, self).__init__()
-        self.num = num
-        self.interval = interval
-
-    def run(self):
-        while True:
-            try:
-                res = manager.get_status("192.168.0."+str(ip_end_num[self.num]), 161)
-                print self.num, str(res[1]), type(res[1])
-                socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1], 'hash':res[0]}, namespace="/jsh")
-                time.sleep(self.interval)
-            except:
-                print self.num, "error connection"
-                socketio.emit('gpu status', {"cardNum":self.num,'temp':[None,None,None,None,None,None], "hash":None}, namespace="/jsh")
-                time.sleep(self.interval)
-
-            # print self.num, str(res[1]), type( res[1])
-            # socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1]}, namespace="/jsh")
-            # time.sleep(self.interval)
+# class ReadTemperature(Thread):
+#     def __init__(self, num, interval):
+#         super(ReadTemperature, self).__init__()
+#         self.num = num
+#         self.interval = interval
+#
+#     def run(self):
+#         while True:
+#             try:
+#                 res = manager.get_status("192.168.0."+str(ip_end_num[self.num]), 161)
+#                 print self.num, str(res[1]), type(res[1])
+#                 socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1], 'hash':res[0]}, namespace="/jsh")
+#                 time.sleep(self.interval)
+#             except:
+#                 print self.num, "error connection"
+#                 socketio.emit('gpu status', {"cardNum":self.num,'temp':[None,None,None,None,None,None], "hash":None}, namespace="/jsh")
+#                 time.sleep(self.interval)
+#
+#             # print self.num, str(res[1]), type( res[1])
+#             # socketio.emit('gpu status', {"cardNum":self.num,'temp':res[1]}, namespace="/jsh")
+#             # time.sleep(self.interval)
 
 class getMiningPoolHubData(Thread):
     def __init__(self, interval):
