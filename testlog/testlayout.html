@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Dash</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+  <h1>DashBoard</h1>
+  <form action="{{ url_for('paramiko') }}" method=post >
+    <!-- <dl>
+      <dt>Title:
+      <dd>contents
+    </dl> -->
+  <ul class=results>
+  {% for res in results %}
+    <li>{{ res }}
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em>
+  {% endfor %}
+  </ul>
+</div>
