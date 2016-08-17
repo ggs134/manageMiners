@@ -25,12 +25,25 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           {% if targetNum %}
-            <h1 class="page-header">골드러시 {{targetNum}}번 마이너 <a class="btn btn-default" href="{{url_for('log')}}/{{targetNum}}" role="button">새로고침</a></h1> 
+            <h1 class="page-header">골드러시 {{targetNum}}번 마이너 <a class="btn btn-default" href="{{url_for('log')}}/{{targetNum}}" role="button">새로고침</a>
+              <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                마이너선택 <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                {% for num in machines %}
+                <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+            </h1>
             <div class="table-responsive">
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th>로그정보</th>
+                    <th>
+
+                  </th>
                     <!-- <th>로그정보</th> -->
                   </tr>
                 </thead>
@@ -44,7 +57,19 @@
               </table>
             </div>
           {% else %}
-            <h1 class="page-header">골드러시 로그보드</h1>
+            <h1 class="page-header">골드러시 로그보드
+              <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  마이너선택 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  {% for num in machines %}
+                  <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </h1>
+
             <ul>
               <li>2,9번 마이너는 윈도우즈라서 로그 안보임</li>
               <li>3,18번 로그 안보임(이유불명..)</li>
