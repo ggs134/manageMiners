@@ -5,6 +5,7 @@ import time
 import json
 import requests
 import get24mined
+import paramikoWrapper as wrap
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -105,10 +106,25 @@ def index():
         thread.start()
     return render_template('main3.htm', machines=miner_list, lastMined=minedEther)
 
+@app.route('/log')
+def log():
+    return render_template('log.html', machines=miner_list)
+
+@app.route('/log/int:minerNum')
+def paramiko(minerNum):
+    if int(minerNum) < 9:
+        client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
+        result = client.execute('tail -10 ethminer.err.log')['out']
+        return render_template('log.html', results=result)
+    elif int(minerNum) in [7, 13, 37]:
+        return "page does not exist"
+    else:
+        client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
+        result = client.execute('tail -10 ethminer.err.log')['out']
+        return render_template('log.html', results=result)
 
 # @app.route('/miners/<number>'):
 # def get_log(number):
-
 
 
 # @socketio.on('connect',namespace='/jsh')
