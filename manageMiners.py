@@ -8,14 +8,16 @@ import json
 import requests
 import get24mined
 import paramikoWrapper as wrap
+import re
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 thread = None
 
-miners_farm1 = [1,2,3,4,5,6,8,9,10,11,12]
-miners_farm2 = [i for i in range(14,39) if i is not 37 ]
-miner_list = miners_farm1 + miners_farm2
+miners_farm1 = [1,2,3,4,5,6,8,14]
+miners_farm2 = [9,10,11,12]
+miners_farm3 = [i for i in range(15,39) if i is not 37 ]
+miner_list = miners_farm1 + miners_farm2 + miners_farm3
 
 
 global threads
@@ -61,23 +63,31 @@ def log():
 def paramiko(minerNum):
     if minerNum in [2, 9, 7, 13, 37]:
         result = ["LOG does not exist"]
-        return render_template('log.html', machines=miner_list, results=result)
+        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
     elif (minerNum < 9) or (minerNum == 14) :
         client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -10 ethminer.err.log')['out']
-        return render_template('log.html', machines=miner_list, results=result)
+        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = convert_list(result)
+        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
     elif minerNum in [10,11,12]:
         portMapping = {10:22, 11:443, 12:444}
         client = wrap.SSHClient('ggs134.gonetis.com', portMapping[int(minerNum)], 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -10 ethminer.err.log')['out']
-        return render_template('log.html', machines=miner_list, results=result)
+        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = convert_list(result)
+        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
     else:
         client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -10 ethminer.err.log')['out']
-        return render_template('log.html', machines=miner_list, results=result)
+        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = convert_list(result)
+        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+
+def convert_list(lst):
+    newLst = [i.encode("utf-8").replace("[","") for i in lst]
+    return [re.sub(r"\d{2}m|\d{1}m","",j).decode("utf-8") for j in newLst ]
+
 
 
 if __name__ == '__main__':
