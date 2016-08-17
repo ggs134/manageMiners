@@ -1,3 +1,5 @@
+#-*- coding: utf-8 -*-
+
 from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
 from threading import Thread
@@ -112,15 +114,27 @@ def log():
 
 @app.route('/log/<int:minerNum>')
 def paramiko(minerNum):
-    print 'hello'
-    if int(minerNum) < 9:
+    # print 'hello'
+# 3, 18번 로그정보 뜨지 않음
+    if minerNum in [2, 9, 7, 13, 37]:
+        result = ["LOG does not exist"]
+        return render_template('log.html', machines=miner_list, results=result)
+
+    elif (minerNum < 9) or (minerNum == 14) :
         client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
         result = [{result.index(i): i } for i in result]
-        print result
+        # print 'hi'
+
         return render_template('log.html', machines=miner_list, results=result)
-    elif int(minerNum) in [7, 13, 37]:
-        return "page does not exist"
+
+    elif minerNum in [10,11,12]:
+        # print 'nimerNum'
+        portMapping = {10:22, 11:443, 12:444}
+        client = wrap.SSHClient('ggs134.gonetis.com', portMapping[int(minerNum)], 'miner'+str(minerNum), 'rlagnlrud' )
+        result = client.execute('tail -10 ethminer.err.log')['out']
+        return render_template('log.html', machines=miner_list, results=result)
+
     else:
         client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
