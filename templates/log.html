@@ -86,24 +86,25 @@
                   <td id="miner{{num}}">
                     <a href="http://localhost:5000/log/{{num}}"> {{num}} </a>
                   </td>
+                </tr>
                 {% endfor %}
 
-                <!-- {% block body %}{% endblock %} -->
 
-                  <td>
-                    <form action="{{ url_for('paramiko') }}" >
-                    <ul class=results>
-                    {% for res in results %}
-                      <li>{{ res }}
-                    {% else %}
-                      <li><em>Unbelievable.  No entries here so far</em>
-                    {% endfor %}
-                    </ul>
-                  </td>
 
-                </tr>
+
               </tbody>
             </table>
+
+            <div id="logresult">
+              <ul>
+              {% for res in results %}
+                <li>
+                  {{res}}
+                </li>
+              {% endfor %}
+              </ul>
+            </div>
+
             <!-- <div id="log">hi</div> -->
           </div>
         </div>
