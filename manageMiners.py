@@ -67,20 +67,20 @@ def paramiko(minerNum):
 
     elif (minerNum < 9) or (minerNum == 14) :
         client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = client.execute('tail -10 ethminer.err.log')['out']
         result = convert_list(result)
         return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
     elif minerNum in [10,11,12]:
         portMapping = {10:22, 11:443, 12:444}
         client = wrap.SSHClient('ggs134.gonetis.com', portMapping[int(minerNum)], 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = client.execute('tail -10 ethminer.err.log')['out']
         result = convert_list(result)
         return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
     else:
         client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -15 ethminer.err.log')['out']
+        result = client.execute('tail -10 ethminer.err.log')['out']
         result = convert_list(result)
         return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
