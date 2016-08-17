@@ -110,7 +110,7 @@ def index():
 def log():
     return render_template('log.html', machines=miner_list)
 
-@app.route('/log/int:minerNum')
+@app.route('/log/<int:minerNum>')
 def paramiko(minerNum):
     if int(minerNum) < 9:
         client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
@@ -122,6 +122,8 @@ def paramiko(minerNum):
         client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
         return render_template('log.html', results=result)
+
+    return render_template('log.html', minerNums=minerNum)
 
 # @app.route('/miners/<number>'):
 # def get_log(number):
