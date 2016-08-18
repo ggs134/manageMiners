@@ -21,7 +21,7 @@ miners_farm2 = [9,10,11,12]
 miners_farm3 = [i for i in range(15,39) if i is not 37 ]
 miner_list = miners_farm1 + miners_farm2 + miners_farm3
 
-mongoClient = pymongo.MongoClient("52.78.47.231",27017)
+mongoClient = pymongo.MongoClient("52.78.47.231",27017, connect=False)
 mongoDB = mongoClient.di
 
 
