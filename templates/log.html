@@ -28,17 +28,19 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           {% if targetNum %}
-            <h1 class="page-header">골드러시 {{targetNum}}번 마이너 <a class="btn btn-default" href="{{url_for('log')}}/{{targetNum}}" role="button">새로고침</a>
-              <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                마이너선택 <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                {% for num in machines %}
-                <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
+              <h1 class="page-header">골드러시 {{targetNum}}번 마이너
+                <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  마이너선택 <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  {% for num in machines %}
+                  <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <a class="btn btn-default" href="{{url_for('log')}}/{{targetNum}}" role="button">새로고침</a>
+              <!-- <a class="btn btn-default" href="{{url_for('log', )}}/{{targetNum}}" role="button">새로고침</a> -->
             </h1>
             <div class="table-responsive">
               <table class="table table-striped">
@@ -50,6 +52,12 @@
                     <!-- <th>로그정보</th> -->
                   </tr>
                 </thead>
+                  <ul>
+                    <li>내용 중 "Mining on PoWhash #c7b4bde3 : 119.54MH/s A48+1:R0+0:F0]" 같은 메시지가 있으면 정상입니다.</li>
+                    <li>내용 중 "incorrect" 혹은 "stale" 혹은 로그 앞에 X표시 있으면 비정상. 재시작이 필요합니다.</li>
+                    <li>2번,9번은 로그가 보이지 않습니다. 팀뷰어로 접속해야합니다.</li>
+                    <li>내용 중 "nodename nor servname provided, or not known"은 직접 재시작해야 합니다.(2,9제외)</li>
+                  </ul>
                 <tbody>
                   {% for res in results %}
                   <tr class={{num}}>
@@ -76,11 +84,12 @@
               </div>
             </h1>
 
-            <ul>
-              <li>2,9번 마이너는 윈도우즈라서 로그 안보임</li>
-              <!-- <li>3,18번 로그 안보임(이유불명..)</li> -->
-              <!-- <li>12번 마이너 접속 안됨</li> -->
-            </ul>
+              <ul>
+                <li>로그 중 "Mining on PoWhash #c7b4bde3 : 119.54MH/s A48+1:R0+0:F0]" 같은 메시지가 있으면 정상입니다.</li>
+                <li>로그 중 "incorrect" 혹은 "stale" 혹은 로그 앞에 X표시 있으면 비정상. 재시작이 필요합니다.</li>
+                <li>2번,9번은 로그가 보이지 않습니다. 팀뷰어로 접속해야합니다.</li>
+                <li>로그 중 "nodename nor servname provided, or not known"은 직접 재시작해야 합니다.(2,9제외)</li>
+              </ul>
           {% endif %}
           <!-- <h1 class="page-header">{{targetNum}}번 마이너 로그기록</h1> -->
 
