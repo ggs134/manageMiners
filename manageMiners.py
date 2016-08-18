@@ -78,6 +78,21 @@ class getMongoDBData(Thread):
                 time.sleep(1)
                 count2 -= 1
 
+@socketio.on('message', namespace='/reset')
+def handle_message(message):
+    number = int(message["data"][6:])
+    dNP = getDomainAndPort(number)
+    try:
+        print "socket!"
+        client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(number), 'rlagnlrud' )
+        # out = client.execute('tail -10 ethminer.err.log')['out']
+        client.execute("sudo reboot")["out"]
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "} ,namespace="/reset")
+    except Exception as e:
+        print e
+        message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
+        socketio.emit("reboot result",{"data": message} ,namespace="/reset")
+
 @app.route('/')
 def index():
     minedEther = get24mined.getMinedEther()
@@ -155,28 +170,52 @@ def log():
 
 @app.route('/log/<int:minerNum>')
 def paramiko(minerNum):
-    if minerNum in [2, 9, 7, 13, 37]:
-        result = ["LOG does not exist"]
-        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
-    elif (minerNum < 9) or (minerNum == 14) :
-        client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
+    dNP = getDomainAndPort(minerNum)
+    print dNP
+    try:
+        client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
         result = convert_list(result)
         return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+    except Exception as e:
+        print e
+        result = ["LOG does not exist or Connection Error", str(e)]
+        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
-    elif minerNum in [10,11,12]:
+    # if minerNum in [2, 9, 7, 13, 37]:
+    #     result = ["LOG does not exist"]
+    #     return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+    #
+    # elif (minerNum < 9) or (minerNum == 14) :
+    #     client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
+    #     result = client.execute('tail -10 ethminer.err.log')['out']
+    #     result = convert_list(result)
+    #     return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+    #
+    # elif minerNum in [10,11,12]:
+    #     portMapping = {10:22, 11:443, 12:444}
+    #     client = wrap.SSHClient('ggs134.gonetis.com', portMapping[int(minerNum)], 'miner'+str(minerNum), 'rlagnlrud' )
+    #     result = client.execute('tail -10 ethminer.err.log')['out']
+    #     result = convert_list(result)
+    #     return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+    #
+    # else:
+    #     client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
+    #     result = client.execute('tail -10 ethminer.err.log')['out']
+    #     result = convert_list(result)
+    #     return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+
+def getDomainAndPort(minerNumber):
+    if minerNumber in [2, 9, 7, 13, 37]:
+        return {"domain":"Does not exists","port":"Does not exists"}
+    elif (minerNumber < 9) or (minerNumber == 14):
+        return {"domain": "goldrush2.hopto.org", "port":50000+int(minerNumber)}
+    elif minerNumber in [10,11,12]:
         portMapping = {10:22, 11:443, 12:444}
-        client = wrap.SSHClient('ggs134.gonetis.com', portMapping[int(minerNum)], 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -10 ethminer.err.log')['out']
-        result = convert_list(result)
-        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
-
+        return {"domain": "ggs134.gonetis.com", "port": portMapping[minerNumber]}
     else:
-        client = wrap.SSHClient('goldrush.iptime.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
-        result = client.execute('tail -10 ethminer.err.log')['out']
-        result = convert_list(result)
-        return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
+        return {"domain":"goldrush.iptime.org", "port":50000+int(minerNumber)}
 
 def convert_list(lst):
     newLst = [i.encode("utf-8").replace("[","") for i in lst]
