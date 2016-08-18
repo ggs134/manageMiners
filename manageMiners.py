@@ -117,7 +117,7 @@ def status():
     max_temp = max(max([i["temp"] for i in data]))
     max_list = [i["username"] for i in data if max_temp in i["temp"]]
 
-    statistics = {"average":total_average, "max_list":max_list }
+    statistics = {"average":total_average, "max_list":max_list , "max_temp": max_temp}
 
     # print data
     return render_template('status.html', statusData=data, statistics=statistics)
