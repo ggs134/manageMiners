@@ -36,6 +36,9 @@
                 <ul class="dropdown-menu">
                   {% for num in machines %}
                   <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
+                    {% if num == 14 or num == 12%}
+                    <li role="separator" class="divider"></li>
+                    {% endif %}
                   {% endfor %}
                 </ul>
               </div>
