@@ -83,25 +83,27 @@ def handle_message(message):
     number = int(message["data"][6:])
     dNP = getDomainAndPort(number)
     try:
-        print "socket!"
+        # print "socket!"
         client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(number), 'rlagnlrud' )
         # out = client.execute('tail -10 ethminer.err.log')['out']
         client.execute("sudo reboot")["out"]
         socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "} ,namespace="/reset")
     except Exception as e:
-        print e
+        # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
         socketio.emit("reboot result",{"data": message} ,namespace="/reset")
 
 @app.route('/')
 def index():
-    minedEther = get24mined.getMinedEther()
+    minedETH = get24mined.getMinedEther()
+    minedETC = get24mined.getMinedEtc()
+    prices = get24mined.priceTicker()
     global thread
     if thread is None:
         thread = getMiningPoolHubData(10)
         thread.daemon = True
         thread.start()
-    return render_template('main3.htm', machines=miner_list, lastMined=minedEther)
+    return render_template('main3.htm', machines=miner_list, lastMinedETH=minedETH, lastMinedETC=minedETC, prices=prices)
 
 @app.route('/status')
 def status():
@@ -158,11 +160,23 @@ def status():
     total_gpu_num = sum([int(i["gpu_num"]) for i in total_data])
     hash_per_gpu = sum([int(i["hash"]) for i in total_data]) / float(total_gpu_num)
 
+    #profit related info
+    minedETH = get24mined.getMinedEther()
+    minedETC = get24mined.getMinedEtc()
+    prices = get24mined.priceTicker()
+
+    #weather realted info
+    weather = get24mined.getWeatherInfo()
+
+    profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"],\
+    "ETH24": minedETH*prices["eth"]*12,"ETC24":minedETC*prices["etc"]*24}
+
     statistics = {"total_average":total_average, "average1":average1, "average2":average2, \
     "max_list":max_list , "max_temp": max_temp, "total_gpu_num":total_gpu_num, "hash_per_gpu": hash_per_gpu}
 
     # print data
-    return render_template('status.html', statusData1=data1, statusData2=data2, statistics=statistics)
+    return render_template('status.html', statusData1=data1, statusData2=data2, \
+    weather=weather, statistics=statistics, profit=profit)
 
 @app.route('/log')
 def log():
@@ -172,7 +186,7 @@ def log():
 def paramiko(minerNum):
 
     dNP = getDomainAndPort(minerNum)
-    print dNP
+    # print dNP
     try:
         client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
