@@ -173,14 +173,28 @@
             };
 
             $('#total-hash').html(total_hash.toFixed(2)+" GH/s");
-            $('#total-machines').html(total_num+" / 35");
+
             total_hash += data["hashrate"]/1000000;
+          };
+          // console.log(total_num);
+          // console.log(msg.data2);
+          if(total_num > 35){
+            // console.log(total_num+"is bigger than 35");
+            if(msg.data.length > msg.data2.length){
+              $('#total-machines').html((msg.data.length-1) + " / 35");
+              // console.log(msg.data);
+            }else{
+              $('#total-machines').html(msg.data2.length + " / 35");
+            };
+          }else{
+            $('#total-machines').html(total_num + " / 35");
           };
 
           // console.log(miners_list);
           for(var i in miners_list){
             var eth_color = $('#hash'+miners_list[i]).css("background-color");
             var classic_color = $("#hashC"+miners_list[i]).css("background-color");
+
             // console.log(miners_list[i]);
             // console.log(eth_color);
             // console.log(classic_color);
@@ -208,6 +222,7 @@
                 $('#hashC'+miners_list[i]).css("background-color","transparent");
               };
             };
+
           };
           miners_list = [];
 
