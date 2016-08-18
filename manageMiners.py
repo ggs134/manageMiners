@@ -107,7 +107,7 @@ def status():
             # print res
             temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
             averageTemp = sum(temp) / float(len(temp))
-            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp}
+            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
             # print rs
             data1.append(rs)
         except Exception as e:
@@ -122,7 +122,7 @@ def status():
             # print res
             temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
             averageTemp = sum(temp) / float(len(temp))
-            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp}
+            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
             # print rs
             data2.append(rs)
         except Exception as e:
@@ -138,8 +138,13 @@ def status():
 
     max_temp = max(max([i["temp"] for i in total_data]))
     max_list = [i["username"] for i in total_data if max_temp in i["temp"]]
+    # print total_data
+    # print total_data[0]["gpu_num"]
+    total_gpu_num = sum([int(i["gpu_num"]) for i in total_data])
+    hash_per_gpu = sum([int(i["hash"]) for i in total_data]) / float(total_gpu_num)
 
-    statistics = {"total_average":total_average, "average1":average1, "average2":average2, "max_list":max_list , "max_temp": max_temp}
+    statistics = {"total_average":total_average, "average1":average1, "average2":average2, \
+    "max_list":max_list , "max_temp": max_temp, "total_gpu_num":total_gpu_num, "hash_per_gpu": hash_per_gpu}
 
     # print data
     return render_template('status.html', statusData1=data1, statusData2=data2, statistics=statistics)

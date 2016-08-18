@@ -36,6 +36,16 @@
                 <h2>{{statistics.average2|round(1)}}'C</h2>
                 <span class="text-muted">2막장장비 평균온도</span>
               </div>
+              <div class="col-xs-6 col-sm-3 placeholder">
+                <!-- <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6IzFFMjkyQztmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true"> -->
+                <h2>{{statistics.total_gpu_num}}</h2>
+                <span class="text-muted">GPU갯수&nbsp;(연구실제외)</span>
+              </div>
+              <div class="col-xs-6 col-sm-3 placeholder">
+                <!-- <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="200x200" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzM5REJBQyIvPjxnPjx0ZXh0IHg9Ijc0LjA1NDY4NzUiIHk9IjEwMCIgc3R5bGU9ImZpbGw6IzFFMjkyQztmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0O2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjIwMHgyMDA8L3RleHQ+PC9nPjwvc3ZnPg==" data-holder-rendered="true"> -->
+                <h2>{{statistics.hash_per_gpu|round(1)}} MH/s</h2>
+                <span class="text-muted">1GPU당해시&nbsp;(연구실제외)</span>
+              </div>
             </div>
             <h3>1막장</h3>&nbsp;
             <div class="table-revsponsive">
@@ -43,6 +53,7 @@
                 <thead>
                   <tr>
                     <th>번호</th>
+                    <th>GPU갯수</th>
                     <th>해시</th>
                     <th>평균온도</th>
                     <th>개별온도</th>
@@ -53,6 +64,7 @@
                   {% for stat in statusData1 %}
                   <tr class={{stat.username}}>
                     <td>{{stat.username}}</td>
+                    <td>{{stat.gpu_num}}</td>
                     <td>{{stat.hash|round(1)}} MH/s</td>
                     <td>{{stat.average_temp|round(1)}}'C</td>
                     <td>{{stat.temp}}</td>
@@ -70,6 +82,7 @@
               <thead>
                 <tr>
                   <th>번호</th>
+                  <th>GPU갯수</th>
                   <th>해시</th>
                   <th>평균온도</th>
                   <th>개별온도</th>
@@ -80,6 +93,7 @@
                 {% for stat in statusData2 %}
                 <tr class={{stat.username}}>
                   <td>{{stat.username}}</td>
+                  <td>{{stat.gpu_num}}</td>
                   <td>{{stat.hash|round(1)}} MH/s</td>
                   <td>{{stat.average_temp|round(1)}}'C</td>
                   <td>{{stat.temp}}</td>
