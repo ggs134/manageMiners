@@ -61,6 +61,7 @@
                   <th>마이너번호</th>
                   <th>이더리움해시값</th>
                   <th>클래식해시값</th>
+                  <th>로그보기</th>
                   <th>재부팅</th>
                   <!-- th>온도1</th>
                   <th>온도2</th>
@@ -76,6 +77,7 @@
                   <td id="miner{{num}}">{{num}}</td>
                   <td id="hash{{num}}"></td>
                   <td id="hashC{{num}}"></td>
+                  <td> <a class="btn btn-default" href="{{url_for('log')}}/{{num}}" role="button">보기</a></td>
                   <td>버튼(예정)</td>
                   <!-- <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
