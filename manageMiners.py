@@ -96,7 +96,8 @@ def status():
     #     thread2 = getMongoDBData(60)
     #     thread2.daemon = True
     #     thread2.start()
-    data = []
+    data1 = []
+    data2 = []
     for i in miners_farm1:
         try:
             res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
@@ -108,19 +109,40 @@ def status():
             averageTemp = sum(temp) / float(len(temp))
             rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp}
             # print rs
-            data.append(rs)
+            data1.append(rs)
         except Exception as e:
             print e
 
-    average_list = [ i["average_temp"] for i in data ]
-    total_average = sum(average_list) / float(len(average_list))
-    max_temp = max(max([i["temp"] for i in data]))
-    max_list = [i["username"] for i in data if max_temp in i["temp"]]
+    for i in miners_farm3:
+        try:
+            res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
+            # print res
+            # print res["hashrate"]
+            # rs = {"hash":res["hashrate"]+res["hashrateC"], "temp":res["gpuTemprature"], "fanspeed":res["fanspeed"]}
+            # print res
+            temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
+            averageTemp = sum(temp) / float(len(temp))
+            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp}
+            # print rs
+            data2.append(rs)
+        except Exception as e:
+            print e
 
-    statistics = {"average":total_average, "max_list":max_list , "max_temp": max_temp}
+    total_data = data1 + data2
+    average_list1 = [i["average_temp"] for i in data1 ]
+    average_list2 = [ i["average_temp"] for i in data2 ]
+    total_average_list = average_list1 + average_list2
+    total_average = sum(total_average_list) / float(len(total_average_list))
+    average1 = sum(average_list1) / float(len(average_list1))
+    average2 = sum(average_list2) / float(len(average_list2))
+
+    max_temp = max(max([i["temp"] for i in total_data]))
+    max_list = [i["username"] for i in total_data if max_temp in i["temp"]]
+
+    statistics = {"total_average":total_average, "average1":average1, "average2":average2, "max_list":max_list , "max_temp": max_temp}
 
     # print data
-    return render_template('status.html', statusData=data, statistics=statistics)
+    return render_template('status.html', statusData1=data1, statusData2=data2, statistics=statistics)
 
 @app.route('/log')
 def log():
