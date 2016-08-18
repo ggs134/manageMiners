@@ -78,37 +78,6 @@
     <script src="{{url_for('static', filename='ie10-viewport-bug-workaround.js')}}" ></script>
     <!-- socketio  -->
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-    <script type="text/javascript" charset="utf-8">
-      $(document).ready(function(){
-        namespace = '/jsh';
-
-        var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
-
-        socket.on("mongo timer status", function(msg){
-          remain_second = msg.data;
-          $("#timerMongo").html(remain_second+" 초 후 업데이트");
-        });
-
-        socket.on('mongoDB data', function(msg) {
-          console.log("hello!");
-          // var total_num = msg.data.length + msg.data2.length;
-          // var total_hash = 0;
-          var miners_list = [];
-          console.log(msg.data);
-
-          for(var mongo in msg.data){
-            console.log(miner);
-            // var data = msg.data[miner];
-            // var minerNum = data["username"].substring(13);
-            // miners_list.push(minerNum);
-            // $('#hash'+minerNum).html((data["hashrate"]/1000).toFixed(1)+" MH/s").css("background-color","transparent");
-            // if(data["hashrate"] == 0) {
-            //   total_num -= 1;
-            //   $('#hash'+minerNum).css("background-color", "red");
-          };
-        });
-      });
-      </script>
 
 
 
