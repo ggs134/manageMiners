@@ -63,7 +63,7 @@
                   <th>이더리움해시값</th>
                   <th>클래식해시값</th>
                   <th>로그보기</th>
-                  <th>재부팅</th>
+                  <!-- <th>재부팅</th> -->
                   <!-- th>온도1</th>
                   <th>온도2</th>
                   <th>온도3</th>
@@ -79,7 +79,7 @@
                   <td id="hash{{num}}"></td>
                   <td id="hashC{{num}}"></td>
                   <td> <a class="btn btn-default" href="{{url_for('log')}}/{{num}}" role="button">로그보기</a></td>
-                  <td><a class="btn btn-danger reboot" id="button{{num}}" role="button">재부팅</a></td>
+                  <!-- <td><a class="btn btn-danger reboot" id="button{{num}}" role="button">재부팅</a></td> -->
                   <!-- <td id='gpu{{num}}1'></td>
                   <td id='gpu{{num}}2'></td>
                   <td id='gpu{{num}}3'></td>
@@ -111,40 +111,40 @@
     <script type="text/javascript" charset="utf-8">
 
       $(document).ready(function(){
-        var namespac = '/reset';
+        // var namespac = '/reset';
         var namespace = '/jsh';
-        var socketReboot = io.connect('http://' + document.domain + ':' + location.port + namespac);
+        // var socketReboot = io.connect('http://' + document.domain + ':' + location.port + namespac);
 
 
         // 버튼 클릭시 서버로 재부팅 명령
-        $(".reboot").click(function(){
-
-          var id = $(this).attr('id');
-          var result = confirm(id.substring(6)+"번 마이너를 재시작 하시겠습니까? 재시작 전 로그 확인 필수!!");
-          if(result == true){
-            // var socket = io.connect('http://' + document.domain + ':' + location.port + namespac);
-            socketReboot.emit('message', {data: id});
-          }else{
-            return;
-          };
-        });
+        // $(".reboot").click(function(){
+        //
+        //   var id = $(this).attr('id');
+        //   var result = confirm(id.substring(6)+"번 마이너를 재시작 하시겠습니까? 재시작 전 로그 확인 필수!!");
+        //   if(result == true){
+        //     // var socket = io.connect('http://' + document.domain + ':' + location.port + namespac);
+        //     socketReboot.emit('message', {data: id});
+        //   }else{
+        //     return;
+        //   };
+        // });
 
         // 팝업메시지
-        socketReboot.on("reboot result", function(msg){
-        bootstrap_alert = function () {};
-        bootstrap_alert.warning = function (message, alert, timeout) {
-          $('<div id="floating_alert" class="alert alert-' + alert +
-          ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
-           + message + '&nbsp;&nbsp;</div>').appendTo('body');
-             setTimeout(function () {
-               $(".alert").alert('close');
-             }, timeout);
-        }
-
-        console.log("socket on!");
-        bootstrap_alert.warning(msg.data, 'success', 8000);
-
-        });
+        // socketReboot.on("reboot result", function(msg){
+        // bootstrap_alert = function () {};
+        // bootstrap_alert.warning = function (message, alert, timeout) {
+        //   $('<div id="floating_alert" class="alert alert-' + alert +
+        //   ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+        //    + message + '&nbsp;&nbsp;</div>').appendTo('body');
+        //      setTimeout(function () {
+        //        $(".alert").alert('close');
+        //      }, timeout);
+        // };
+        //
+        // console.log("socket on!");
+        // bootstrap_alert.warning(msg.data, 'success', 8000);
+        //
+        // });
 
 
         socket = io.connect('http://' + document.domain + ':' + location.port + namespace);

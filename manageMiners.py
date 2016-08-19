@@ -83,11 +83,17 @@ def handle_message(message):
     number = int(message["data"][6:])
     dNP = getDomainAndPort(number)
     try:
-        # print "socket!"
+        print "socket!"
+        print number
+        print dNP
         client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(number), 'rlagnlrud' )
+        # client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(minerNum), 'rlagnlrud' )
         # out = client.execute('tail -10 ethminer.err.log')['out']
-        client.execute("sudo reboot")["out"]
-        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "} ,namespace="/reset")
+        result = client.execute("reboot", sudo=True)
+        message = ""
+        for i in result:
+            message +=i
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset")
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
@@ -161,15 +167,14 @@ def status():
     hash_per_gpu = sum([int(i["hash"]) for i in total_data]) / float(total_gpu_num)
 
     #profit related info
-    minedETH = get24mined.getMinedEther()
-    minedETC = get24mined.getMinedEtc()
+    # minedETH = get24mined.getMinedEther()
+    # minedETC = get24mined.getMinedEtc()
     prices = get24mined.priceTicker()
 
     #weather realted info
     weather = get24mined.getWeatherInfo()
 
-    profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"],\
-    "ETH24": minedETH*prices["eth"]*12,"ETC24":minedETC*prices["etc"]*24}
+    profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"]}
 
     statistics = {"total_average":total_average, "average1":average1, "average2":average2, \
     "max_list":max_list , "max_temp": max_temp, "total_gpu_num":total_gpu_num, "hash_per_gpu": hash_per_gpu}

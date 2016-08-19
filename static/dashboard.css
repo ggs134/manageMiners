@@ -107,8 +107,8 @@ body {
 #floating_alert {
     position: fixed;
     top: 15%;
-    /*left: 50%;*/
-    width:100%;
+    left: 17%;
+    width:82.5%;
     margin-top: -50px;
     margin-left: 0px;
 }
