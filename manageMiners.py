@@ -25,7 +25,7 @@ mongoClient = pymongo.MongoClient("52.78.47.231",27017, connect=False)
 mongoDB = mongoClient.di
 
 
-global threads
+global thread
 
 class getMiningPoolHubData(Thread):
     def __init__(self, interval):
@@ -73,10 +73,10 @@ class getMongoDBData(Thread):
                 except Exception as e:
                     print # coding=utf-8
             print data
-            socketio.emit("mongoDB data", {"data":data}, namespace="/jsh" ,bradcast=True)
+            socketio.emit("mongoDB data", {"data":data}, namespace="/jsh")
             count2 = self.interval
             for i in range(self.interval):
-                socketio.emit("mongo timer status", {"data": count2}, namespace="/jsh", broadcast=True)
+                socketio.emit("mongo timer status", {"data": count2}, namespace="/jsh")
                 time.sleep(1)
                 count2 -= 1
 
@@ -95,7 +95,7 @@ def handle_message(message):
         # message = ""
         # for i in result:
         message=str(result["out"])
-        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset", broadcast=True)
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset")
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
@@ -103,15 +103,17 @@ def handle_message(message):
 
 @app.route('/')
 def index():
-    minedETH = get24mined.getMinedEther()
-    minedETC = get24mined.getMinedEtc()
-    prices = get24mined.priceTicker()
+    # minedETH = get24mined.getMinedEther()
+    # minedETC = get24mined.getMinedEtc()
+    # prices = get24mined.priceTicker()
+    profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
+
     global thread
     if thread is None:
         thread = getMiningPoolHubData(10)
         thread.daemon = True
         thread.start()
-    return render_template('main3.htm', machines=miner_list, lastMinedETH=minedETH, lastMinedETC=minedETC, prices=prices)
+    return render_template('main3.htm', machines=miner_list,minedETH=profit["minedETH"], minedETC=profit["minedETC"])
 
 @app.route('/status')
 def status():
