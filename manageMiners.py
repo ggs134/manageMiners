@@ -80,7 +80,7 @@ class getMongoDBData(Thread):
                 time.sleep(1)
                 count2 -= 1
 
-@socketio.on('message', namespace='/reset')
+@socketio.on('message', namespace='/jsh')
 def handle_message(message):
     number = int(message["data"][6:])
     dNP = getDomainAndPort(number)
