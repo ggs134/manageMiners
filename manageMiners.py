@@ -43,10 +43,10 @@ class getMiningPoolHubData(Thread):
             # print data
             data = mongoClient["MiningPoolHub"]["eth"].find(sort=[("_id",-1)]).limit(1).next()["data"]
             data2 = mongoClient["MiningPoolHub"]["etc"].find(sort=[("_id",-1)]).limit(1).next()["data"]
-            socketio.emit("miningpoolhub status", {"data": data, "data2":data2}, namespace="/jsh")
+            socketio.emit("miningpoolhub status", {"data": data, "data2":data2}, namespace="/jsh", broadcast=True)
             count = self.interval
             for i in range(self.interval):
-                socketio.emit("timer status", {"data": count}, namespace="/jsh")
+                socketio.emit("timer status", {"data": count}, namespace="/jsh", broadcast=True)
                 time.sleep(1)
                 count -=1
 
@@ -95,7 +95,7 @@ def handle_message(message):
         # message = ""
         # for i in result:
         message=str(result["out"])
-        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset")
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset", broadcast=True)
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
