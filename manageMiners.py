@@ -71,10 +71,10 @@ class getMongoDBData(Thread):
                 except Exception as e:
                     print # coding=utf-8
             print data
-            socketio.emit("mongoDB data", {"data":data}, namespace="/jsh")
+            socketio.emit("mongoDB data", {"data":data}, namespace="/jsh" ,bradcast=True)
             count2 = self.interval
             for i in range(self.interval):
-                socketio.emit("mongo timer status", {"data": count2}, namespace="/jsh")
+                socketio.emit("mongo timer status", {"data": count2}, namespace="/jsh", broadcast=True)
                 time.sleep(1)
                 count2 -= 1
 
@@ -93,11 +93,11 @@ def handle_message(message):
         # message = ""
         # for i in result:
         message=str(result["out"])
-        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset")
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset", broadcast=True)
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
-        socketio.emit("reboot result",{"data": message} ,namespace="/reset")
+        socketio.emit("reboot result",{"data": message} ,namespace="/reset", broadcast=True)
 
 @app.route('/')
 def index():
