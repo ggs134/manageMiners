@@ -25,7 +25,7 @@ mongoClient = pymongo.MongoClient("52.78.47.231",27017, connect=False)
 mongoDB = mongoClient.di
 
 
-global thread
+thread
 
 class getMiningPoolHubData(Thread):
     def __init__(self, interval):
