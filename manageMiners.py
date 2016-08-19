@@ -95,7 +95,7 @@ def handle_message(message):
         # message = ""
         # for i in result:
         message=str(result["out"])
-        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset", broadcast=True)
+        socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/jsh", broadcast=True)
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
