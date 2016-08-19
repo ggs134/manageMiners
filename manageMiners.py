@@ -90,9 +90,9 @@ def handle_message(message):
         # client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(minerNum), 'rlagnlrud' )
         # out = client.execute('tail -10 ethminer.err.log')['out']
         result = client.execute("reboot", sudo=True)
-        message = ""
-        for i in result:
-            message +=i
+        # message = ""
+        # for i in result:
+        message=str(result["out"])
         socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/reset")
     except Exception as e:
         # print e
@@ -119,66 +119,72 @@ def status():
     #     thread2 = getMongoDBData(60)
     #     thread2.daemon = True
     #     thread2.start()
-    data1 = []
-    data2 = []
-    for i in miners_farm1:
-        try:
-            res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
-            # print res
-            # print res["hashrate"]
-            # rs = {"hash":res["hashrate"]+res["hashrateC"], "temp":res["gpuTemprature"], "fanspeed":res["fanspeed"]}
-            # print res
-            temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
-            averageTemp = sum(temp) / float(len(temp))
-            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
-            # print rs
-            data1.append(rs)
-        except Exception as e:
-            print e
+    # data1 = []
+    # data2 = []
+    # for i in miners_farm1:
+    #     try:
+    #         res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
+    #         # print res
+    #         # print res["hashrate"]
+    #         # rs = {"hash":res["hashrate"]+res["hashrateC"], "temp":res["gpuTemprature"], "fanspeed":res["fanspeed"]}
+    #         # print res
+    #         temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
+    #         averageTemp = sum(temp) / float(len(temp))
+    #         rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
+    #         # print rs
+    #         data1.append(rs)
+    #     except Exception as e:
+    #         print e
+    #
+    # for i in miners_farm3:
+    #     try:
+    #         res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
+    #         # print res
+    #         # print res["hashrate"]
+    #         # rs = {"hash":res["hashrate"]+res["hashrateC"], "temp":res["gpuTemprature"], "fanspeed":res["fanspeed"]}
+    #         # print res
+    #         temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
+    #         averageTemp = sum(temp) / float(len(temp))
+    #         rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
+    #         # print rs
+    #         data2.append(rs)
+    #     except Exception as e:
+    #         print e
+    #
+    # total_data = data1 + data2
+    # average_list1 = [i["average_temp"] for i in data1 ]
+    # average_list2 = [ i["average_temp"] for i in data2 ]
+    # total_average_list = average_list1 + average_list2
+    # total_average = sum(total_average_list) / float(len(total_average_list))
+    # average1 = sum(average_list1) / float(len(average_list1))
+    # average2 = sum(average_list2) / float(len(average_list2))
+    #
+    # max_temp = max(max([i["temp"] for i in total_data]))
+    # max_list = [i["username"] for i in total_data if max_temp in i["temp"]]
+    # # print total_data
+    # # print total_data[0]["gpu_num"]
+    # total_gpu_num = sum([int(i["gpu_num"]) for i in total_data])
+    # hash_per_gpu = sum([int(i["hash"]) for i in total_data]) / float(total_gpu_num)
+    #
+    # #profit related info
+    # # minedETH = get24mined.getMinedEther()
+    # # minedETC = get24mined.getMinedEtc()
+    # prices = get24mined.priceTicker()
+    #
+    # #weather realted info
+    # weather = get24mined.getWeatherInfo()
+    statistics = mongoDB["statistics"].find(sort=[("_id",-1)]).limit(1).next()
+    weather = mongoDB["weather"].find(sort=[("_id",-1)]).limit(1).next()
+    profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
+    data1 = mongoDB["statusData1"].find(sort=[("_id",-1)]).limit(1).next()["data"]
+    data2 = mongoDB["statusData2"].find(sort=[("_id",-1)]).limit(1).next()["data"]
 
-    for i in miners_farm3:
-        try:
-            res = mongoDB["miner"+str(i)].find(sort=[("_id",-1)]).limit(1).next()
-            # print res
-            # print res["hashrate"]
-            # rs = {"hash":res["hashrate"]+res["hashrateC"], "temp":res["gpuTemprature"], "fanspeed":res["fanspeed"]}
-            # print res
-            temp = [int(j) for j in res["gpuTemperature"].strip("[]").split(",")]
-            averageTemp = sum(temp) / float(len(temp))
-            rs = {"username": res["username"], "hash":(res["hashrate"]+res["hashrateC"])/1000.0, "temp":temp, "average_temp": averageTemp, "gpu_num":len(temp)}
-            # print rs
-            data2.append(rs)
-        except Exception as e:
-            print e
+    # profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"]}
 
-    total_data = data1 + data2
-    average_list1 = [i["average_temp"] for i in data1 ]
-    average_list2 = [ i["average_temp"] for i in data2 ]
-    total_average_list = average_list1 + average_list2
-    total_average = sum(total_average_list) / float(len(total_average_list))
-    average1 = sum(average_list1) / float(len(average_list1))
-    average2 = sum(average_list2) / float(len(average_list2))
-
-    max_temp = max(max([i["temp"] for i in total_data]))
-    max_list = [i["username"] for i in total_data if max_temp in i["temp"]]
-    # print total_data
-    # print total_data[0]["gpu_num"]
-    total_gpu_num = sum([int(i["gpu_num"]) for i in total_data])
-    hash_per_gpu = sum([int(i["hash"]) for i in total_data]) / float(total_gpu_num)
-
-    #profit related info
-    # minedETH = get24mined.getMinedEther()
-    # minedETC = get24mined.getMinedEtc()
-    prices = get24mined.priceTicker()
-
-    #weather realted info
-    weather = get24mined.getWeatherInfo()
-
-    profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"]}
-
-    statistics = {"total_average":total_average, "average1":average1, "average2":average2, \
-    "max_list":max_list , "max_temp": max_temp, "total_gpu_num":total_gpu_num, "hash_per_gpu": hash_per_gpu}
-
+    # statistics = {"total_average":total_average, "average1":average1, "average2":average2, \
+    # "max_list":max_list , "max_temp": max_temp, "total_gpu_num":total_gpu_num, "hash_per_gpu": hash_per_gpu}
+    print data1
+    print weather
     # print data
     return render_template('status.html', statusData1=data1, statusData2=data2, \
     weather=weather, statistics=statistics, profit=profit)
