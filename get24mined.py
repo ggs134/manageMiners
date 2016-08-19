@@ -14,7 +14,7 @@ def getMinedEther():
             fee.append(data[i]['amount'])
         elif transaction["type"] == "Credit":
             credits.append(data[i]['amount'])
-        elif trTime > datetime.timedelta(hours=-2):
+        elif datetime.datetime.now() - trTime > datetime.timedelta(hours=-2):
             # print "hour2"
             # print trTime
             break
@@ -39,7 +39,7 @@ def getMinedEtc():
             fee.append(data[i]['amount'])
         elif transaction["type"] == "Credit":
             credits.append(data[i]['amount'])
-        elif trTime > datetime.timedelta(hours=-1):
+        elif datetime.datetime.now() - trTime > datetime.timedelta(hours=-1):
             # print "hour2"
             # print trTime
             break
