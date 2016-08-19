@@ -61,6 +61,7 @@
                     <li>내용 중 "incorrect" 혹은 "stale" 혹은 로그 앞에 X표시 있으면 비정상. 재시작이 필요합니다.</li>
                     <li>2번,9번은 로그가 보이지 않습니다. 팀뷰어로 접속해야합니다.</li>
                     <li>내용 중 "nodename nor servname provided, or not known"은 직접 재시작해야 합니다.(2,9제외)</li>
+                    <li>내용 중 "[Errno 51] Network is unreachable"은 직접 재시작해야 합니다.(2,9제외)</li>
                   </ul>
                 <tbody>
                   {% for res in results %}
@@ -93,6 +94,7 @@
                 <li>로그 중 "incorrect" 혹은 "stale" 혹은 로그 앞에 X표시 있으면 비정상. 재시작이 필요합니다.</li>
                 <li>2번,9번은 로그가 보이지 않습니다. 팀뷰어로 접속해야합니다.</li>
                 <li>로그 중 "nodename nor servname provided, or not known"은 직접 재시작해야 합니다.(2,9제외)</li>
+                <li>내용 중 "[Errno 51] Network is unreachable"은 직접 재시작해야 합니다.(2,9제외)</li>
               </ul>
           {% endif %}
           <!-- <h1 class="page-header">{{targetNum}}번 마이너 로그기록</h1> -->
