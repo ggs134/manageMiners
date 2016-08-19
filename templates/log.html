@@ -134,7 +134,7 @@
       });
 
       // 팝업메시지
-      socketReboot.on("reboot result", function(msg){
+
       bootstrap_alert = function () {};
       bootstrap_alert.warning = function (message, alert, timeout) {
         $('<div id="floating_alert" class="alert alert-' + alert +
@@ -145,6 +145,9 @@
            }, timeout);
         };
         console.log("socket on!");
+
+
+      socketReboot.on("reboot result", function(msg){
         bootstrap_alert.warning(msg.data, 'success', 8000);
       });
     });
