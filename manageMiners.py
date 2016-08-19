@@ -99,11 +99,11 @@ def handle_message(message):
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
-        socketio.emit("reboot result",{"data": message} ,namespace="/reset", broadcast=True)
+        socketio.emit("reboot result",{"data": message} ,namespace="/jsh", broadcast=True)
 
 @app.route('/')
 def index():
-    # minedETH = get24mined.getMinedEther()
+    # minedETH = get24mined.getMinedEther()노
     # minedETC = get24mined.getMinedEtc()
     # prices = get24mined.priceTicker()
     profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
