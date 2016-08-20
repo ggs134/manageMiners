@@ -23,6 +23,7 @@ miner_list = miners_farm1 + miners_farm2 + miners_farm3
 
 mongoClient = pymongo.MongoClient("52.78.47.231",27017, connect=False)
 mongoDB = mongoClient.di
+mongoManageDB = mongoClient.manage
 
 
 thread
@@ -84,21 +85,22 @@ class getMongoDBData(Thread):
 def handle_message(message):
     number = int(message["data"][6:])
     dNP = getDomainAndPort(number)
+
     try:
         # print "socket!"
         # print number
         # print dNP
         client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(number), 'rlagnlrud' )
-        # client = wrap.SSHClient(dNP["domain"], dNP["port"], 'miner'+str(minerNum), 'rlagnlrud' )
-        # out = client.execute('tail -10 ethminer.err.log')['out']
         result = client.execute("reboot", sudo=True)
         # message = ""
         # for i in result:
         message=str(result["out"])
+        mongoManageDB["rebootInfo"].insert({"miner":number, "time":time.time(), "result":1})
         socketio.emit("reboot result",{"data": "마이너"+str(number)+" 재부팅중.. "+message} ,namespace="/jsh", broadcast=True)
     except Exception as e:
         # print e
         message = "마이너"+str(number)+" 재부팅 실패  "+str(e)
+        mongoManageDB["rebootInfo"].insert({"miner":number, "time":time.time(), "result":0, "message":message})
         socketio.emit("reboot result",{"data": message} ,namespace="/jsh", broadcast=True)
 
 @app.route('/')
