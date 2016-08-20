@@ -41,8 +41,8 @@ class getMiningPoolHubData(Thread):
             # data = json_response["getuserworkers"]["data"]
             # data2 = json_response2["getuserworkers"]["data"]
             # print data
-            data = mongoClient["MiningPoolHub"]["eth"].find(sort=[("_id",-1)]).limit(1).next()["data"]
-            data2 = mongoClient["MiningPoolHub"]["etc"].find(sort=[("_id",-1)]).limit(1).next()["data"]
+            data = mongoClient["MiningPoolHub"]["eth"].find(sort=[("_id",-1)]).limit(1).next()["data"][0]
+            data2 = mongoClient["MiningPoolHub"]["etc"].find(sort=[("_id",-1)]).limit(1).next()["data"][0]
             socketio.emit("miningpoolhub status", {"data": data, "data2":data2}, namespace="/jsh", broadcast=True)
             count = self.interval
             for i in range(self.interval):

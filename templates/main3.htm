@@ -156,6 +156,7 @@
         // 10초마다 한번씩 실행되는 마풀허 데이터 요청
         socket.on('miningpoolhub status', function(msg) {
           var total_num = msg.data.length + msg.data2.length;
+          console.log(total_num);
 
           // Holder.addTheme("vine", {text: msg.data.length });
           // Holder.run();
@@ -169,6 +170,10 @@
           for(var miner in msg.data){
             // var minerNum = miner["username"].substring(13);
             var data = msg.data[miner];
+            // console.log(msg.data)
+            // console.log(data)
+            // console.log(data[0]["username"])
+            console.log(data["username"])
             var minerNum = data["username"].substring(13);
             miners_list.push(minerNum);
             // console.log(minerNum);
