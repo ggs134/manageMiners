@@ -96,6 +96,15 @@
                 <li>로그 중 "nodename nor servname provided, or not known"은 직접 재시작해야 합니다.(2,9제외)</li>
                 <li>내용 중 "[Errno 51] Network is unreachable"은 직접 재시작해야 합니다.(2,9제외)</li>
               </ul>
+              <p>
+                <h3>최근 재시작</h3>
+                <ul>
+                  {% for res in log_result %}
+                  <li> {{res.miner}}번 마이너 {{res.time}} 재시작 : {{res.result}}함 </li>
+                  {% endfor %}
+                </ul>
+              </p>
+
           {% endif %}
           <!-- <h1 class="page-header">{{targetNum}}번 마이너 로그기록</h1> -->
 

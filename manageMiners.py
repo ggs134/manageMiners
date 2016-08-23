@@ -4,6 +4,7 @@ from flask import Flask, render_template, session
 from flask_socketio import SocketIO, emit
 from threading import Thread
 import time
+import datetime
 import json
 import requests
 import get24mined
@@ -197,7 +198,19 @@ def status():
 
 @app.route('/log')
 def log():
-    return render_template('log.html', machines=miner_list)
+    data = [i for i in mongoManageDB['rebootInfo'].find(sort=[("_id",-1)]).limit(20)]
+    log_result = []
+    for i in data:
+        eachData = {}
+        eachData["time"] = datetime.datetime.fromtimestamp(i["time"]).strftime('%Y-%m-%d %H:%M:%S').decode("utf-8")
+        print eachData["time"].decode("utf-8")
+        eachData["miner"] = i["miner"]
+        if i["result"] == 1:
+            eachData["result"] = "성공".decode("utf-8")
+        else:
+            eachData["result"] = "실패".decode("utf-8")
+        log_result.append(eachData)
+    return render_template('log.html', machines=miner_list, log_result=log_result)
 
 @app.route('/log/<int:minerNum>')
 def paramiko(minerNum):
