@@ -82,6 +82,7 @@
                     <th>해시</th>
                     <th>평균온도</th>
                     <th>개별온도</th>
+                    <th>동작시간</th>
                     <!-- <th>팬속도</th> -->
                   </tr>
                 </thead>
@@ -93,6 +94,7 @@
                     <td>{{stat.hash|round|int}} MH/s</td>
                     <td>{{stat.average_temp|round(1)}}'C</td>
                     <td>{{stat.temp}}</td>
+                    <td>{{stat.boot_hour|round(1)}}시간</td>
                     <!-- <td>speed</td> -->
                   </tr>
                   {% endfor %}
@@ -111,6 +113,7 @@
                   <th>해시</th>
                   <th>평균온도</th>
                   <th>개별온도</th>
+                  <th>동작시간</th>
                   <!-- <th>팬속도</th> -->
                 </tr>
               </thead>
@@ -122,6 +125,7 @@
                   <td>{{stat.hash|round|int}} MH/s</td>
                   <td>{{stat.average_temp|round(1)}}'C</td>
                   <td>{{stat.temp}}</td>
+                  <td>{{stat.boot_hour|round(1)}}시간</td>
                   <!-- <td>speed</td> -->
                 </tr>
                 {% endfor %}
