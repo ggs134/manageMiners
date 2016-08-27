@@ -110,13 +110,15 @@ def index():
     # minedETC = get24mined.getMinedEtc()
     # prices = get24mined.priceTicker()
     profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
+    print profit["ETH_price"]
+    wProfit = float(profit["minedETH"])*float(profit["ETH_price"]) + float(profit["minedETC"])*float(profit["ETC_price"])
 
     global thread
     if thread is None:
         thread = getMiningPoolHubData(10)
         thread.daemon = True
         thread.start()
-    return render_template('main3.htm', machines=miner_list,minedETH=profit["minedETH"], minedETC=profit["minedETC"])
+    return render_template('main3.htm', machines=miner_list,minedETH=profit["minedETH"], minedETC=profit["minedETC"], profit=int(wProfit))
 
 @app.route('/status')
 def status():
