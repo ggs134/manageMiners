@@ -17,8 +17,8 @@ socketio = SocketIO(app)
 thread = None
 thread2 = None
 
-miners_farm1 = [1,2,3,4,5,6,8,14]
-miners_farm2 = [9,10,11,12]
+miners_farm1 = [1,2,3,4,5,6,8]
+miners_farm2 = [9,10,11,12,14]
 miners_farm3 = [i for i in range(15,39) if i is not 37 ]
 miner_list = miners_farm1 + miners_farm2 + miners_farm3
 
@@ -255,10 +255,10 @@ def paramiko(minerNum):
 def getDomainAndPort(minerNumber):
     if minerNumber in [2, 9, 7, 13, 37]:
         return {"domain":"Does not exists","port":"Does not exists"}
-    elif (minerNumber < 9) or (minerNumber == 14):
+    elif (minerNumber < 9):
         return {"domain": "goldrush2.hopto.org", "port":50000+int(minerNumber)}
-    elif minerNumber in [10,11,12]:
-        portMapping = {10:22, 11:443, 12:444}
+    elif minerNumber in [10,11,12,14]:
+        portMapping = {10:22, 11:443, 12:444,14:21}
         return {"domain": "ggs134.gonetis.com", "port": portMapping[minerNumber]}
     else:
         return {"domain":"goldrush.iptime.org", "port":50000+int(minerNumber)}

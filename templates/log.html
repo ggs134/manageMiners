@@ -8,7 +8,7 @@
           <ul class="nav nav-sidebar">
             {% for num in machines %}
             <li><a href="{{url_for('log')}}/{{num}}">{{num}}마이너로그</a></li>
-              {% if num == 14 or num == 12%}
+              {% if num == 8 or num == 14%}
                 <li>-----------------------</li>
               {% endif %}
             {% endfor %}
@@ -36,7 +36,7 @@
                 <ul class="dropdown-menu">
                   {% for num in machines %}
                   <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
-                    {% if num == 14 or num == 12%}
+                    {% if num == 8 or num == 14%}
                     <li role="separator" class="divider"></li>
                     {% endif %}
                   {% endfor %}
@@ -81,7 +81,7 @@
                 <ul class="dropdown-menu">
                   {% for num in machines %}
                   <li><a href="{{url_for('log')}}/{{num}}">마이너{{num}}</a></li>
-                    {% if num == 14 or num == 12%}
+                    {% if num == 8 or num == 14%}
                     <li role="separator" class="divider"></li>
                     {% endif %}
                   {% endfor %}
