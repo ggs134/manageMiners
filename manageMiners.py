@@ -123,7 +123,7 @@ def paramiko(minerNum):
     elif (minerNum < 9) or (minerNum == 14) :
         client = wrap.SSHClient('goldrush2.hopto.org', 50000+int(minerNum), 'miner'+str(minerNum), 'rlagnlrud' )
         result = client.execute('tail -10 ethminer.err.log')['out']
-        result = [{result.index(i): i } for i in result]
+        # result = [{result.index(i): i } for i in result]
         # print 'hi'
 
         return render_template('log.html', machines=miner_list, results=result)
