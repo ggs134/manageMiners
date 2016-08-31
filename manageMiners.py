@@ -256,9 +256,9 @@ def getDomainAndPort(minerNumber):
     if minerNumber in [2, 9, 7, 13, 37]:
         return {"domain":"Does not exists","port":"Does not exists"}
     elif (minerNumber < 9):
-        return {"domain": "goldrush2.hopto.org", "port":50000+int(minerNumber)}
-    elif minerNumber in [10,11,12,14]:
-        portMapping = {10:22, 11:443, 12:444,14:21}
+        return {"domain": "222.98.97.238", "port":50000+int(minerNumber)}
+    elif minerNumber in [10, 11, 12, 14]:
+        portMapping = {10:22, 11:443, 12:444, 14:21}
         return {"domain": "ggs134.gonetis.com", "port": portMapping[minerNumber]}
     else:
         return {"domain":"goldrush.iptime.org", "port":50000+int(minerNumber)}
