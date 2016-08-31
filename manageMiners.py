@@ -74,7 +74,7 @@ class getMongoDBData(Thread):
                     # print rs
                 except Exception as e:
                     print # coding=utf-8
-            print data
+            # print data
             socketio.emit("mongoDB data", {"data":data}, namespace="/jsh")
             count2 = self.interval
             for i in range(self.interval):
@@ -110,7 +110,7 @@ def index():
     # minedETC = get24mined.getMinedEtc()
     # prices = get24mined.priceTicker()
     profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
-    print profit["ETH_price"]
+    # print profit["ETH_price"]
     wProfit = float(profit["minedETH"])*float(profit["ETH_price"]) + float(profit["minedETC"])*float(profit["ETC_price"])
 
     global thread
