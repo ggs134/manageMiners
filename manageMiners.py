@@ -187,6 +187,7 @@ def status():
     profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
     data1 = mongoDB["statusData1"].find(sort=[("_id",-1)]).limit(1).next()["data"]
     data2 = mongoDB["statusData2"].find(sort=[("_id",-1)]).limit(1).next()["data"]
+    data3 = mongoDB["statusData3"].find(sort=[("_id",-1)]).limit(1).next()["data"]
 
     # profit = {"ETH_price": prices["eth"], "ETC_price":prices["etc"], "BTC_price":prices["btc"]}
 
@@ -195,7 +196,7 @@ def status():
     # print data1
     # print weather
     # print data
-    return render_template('status.html', statusData1=data1, statusData2=data2, \
+    return render_template('status.html', statusData1=data1, statusData2=data2, statusData3=data3,\
     weather=weather, statistics=statistics, profit=profit)
 
 @app.route('/log')

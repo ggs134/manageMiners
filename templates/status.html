@@ -118,6 +118,36 @@
                 </tr>
               </thead>
               <tbody>
+                {% for stat in statusData3 %}
+                <tr class={{stat.username}}>
+                  <td>{{stat.username}}</td>
+                  <td>{{stat.gpu_num}}</td>
+                  <td>{{stat.hash|round|int}} MH/s</td>
+                  <td>{{stat.average_temp|round(1)}}'C</td>
+                  <td>{{stat.temp}}</td>
+                  <td>{{stat.boot_hour|round(1)}}시간</td>
+                  <!-- <td>speed</td> -->
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <h3>연구실</h3>&nbsp;
+          <div class="table-revsponsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>번호</th>
+                  <th>GPU갯수</th>
+                  <th>해시</th>
+                  <th>평균온도</th>
+                  <th>개별온도</th>
+                  <th>동작시간</th>
+                  <!-- <th>팬속도</th> -->
+                </tr>
+              </thead>
+              <tbody>
                 {% for stat in statusData2 %}
                 <tr class={{stat.username}}>
                   <td>{{stat.username}}</td>
