@@ -17,10 +17,10 @@ socketio = SocketIO(app)
 thread = None
 thread2 = None
 
-miners_farm1 = [1,2,3,4,5,6,8]
-miners_farm2 = [9,10,11,12,13,14]
-miners_farm3 = [i for i in range(15,39) if i is not 37 ]
-miner_list = miners_farm1 + miners_farm2 + miners_farm3
+miners_farm1 = [1,2,3,4,5,6,7,8,14]
+# miners_farm2 = [9,10,11,12,13,14]
+miners_farm3 = [i for i in range(15,39) if i is not 37 ] + [9,10]
+miner_list = miners_farm1 + miners_farm3
 
 mongoClient = pymongo.MongoClient("52.78.93.195",27017, connect=False)
 mongoDB = mongoClient.di
@@ -254,13 +254,13 @@ def paramiko(minerNum):
     #     return render_template('log.html', machines=miner_list, results=result, targetNum = minerNum)
 
 def getDomainAndPort(minerNumber):
-    if minerNumber in [2, 9, 7, 13, 37]:
+    if minerNumber in [2, 9]:
         return {"domain":"Does not exists","port":"Does not exists"}
-    elif (minerNumber < 9):
+    elif (minerNumber < 9) or (minerNumber == 14):
         return {"domain": "222.98.97.238", "port":50000+int(minerNumber)}
-    elif minerNumber in [10, 11, 12, 14]:
-        portMapping = {10:22, 11:443, 12:444, 14:21}
-        return {"domain": "ggs134.gonetis.com", "port": portMapping[minerNumber]}
+    # elif minerNumber in [10, 11, 12, 14]:
+    #     portMapping = {10:22, 11:443, 12:444, 14:21}
+    #     return {"domain": "ggs134.gonetis.com", "port": portMapping[minerNumber]}
     else:
         return {"domain":"goldrush.iptime.org", "port":50000+int(minerNumber)}
 
