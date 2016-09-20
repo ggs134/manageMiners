@@ -111,7 +111,11 @@ def index():
     # prices = get24mined.priceTicker()
     profit = mongoDB["profit"].find(sort=[("_id",-1)]).limit(1).next()
     # print profit["ETH_price"]
-    wProfit = float(profit["minedETH"])*float(profit["ETH_price"]) + float(profit["minedETC"])*float(profit["ETC_price"])
+    print 1, profit["minedETH"]
+    print 2, profit["ETH_price"]
+    # print 3, profit["minedETC"]
+    # print 4, profit["ETC_price"]
+    wProfit = float(profit["minedETH"])*float(profit["ETH_price"])
 
     global thread
     if thread is None:
